@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.abnamro.rfb.nl.andes</groupId>
     <artifactId>AndesIntakeFormValidation</artifactId>
-    <version>${revision}</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>AndesIntakeFormValidationApplication</name>
     <description>Spring Boot Excel Upload App for Andes Intake Form Validation</description>
@@ -191,3 +191,4 @@
     </build>
 
 </project>
+
