@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Upload Data File</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        :root { --bg:#d7f7d7; --card:#ffffff; --accent:#0f6b57; }
+
+        body {
+        margin: 0;
+        background: var(--bg);
+        font-family: "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
+        }
+
+        .header-bar {
+        position: fixed; top: 0; left: 0; width: 100%;
+        padding: 10px 20px;
+        background: linear-gradient(90deg,#004f43 0%, #007367 50%, #009877 100%);
+        box-shadow: 0 2px 6px rgba(0,0,0,.2);
+        z-index: 1000;
+        }
+        .header-content {
+        max-width: 1200px; margin: 0 auto;
+        display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-logo { max-height: 42px; }
+        .welcome-text { color:#fff; font-weight:700; font-size:18px; white-space:nowrap; }
+
+        .content {
+        padding-top: 90px;
+        display: flex; justify-content: center; align-items: flex-start;
+        }
+
+        .card {
+        width: min(600px, 90%); background: var(--card);
+        border-radius: 12px; padding: 28px; text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,.15);
+        }
+
+        h1 { margin: 0 0 10px; color:#004f43; }
+        p.help { margin: 0 0 18px; color:#333; }
+
+        input[type=file]{
+        display:block; margin: 0 auto 18px; width:100%;
+        padding:10px; border:1px solid #cfd9cf; border-radius:8px; background:#f8fff8;
+        }
+
+        .btn{
+        border:0; padding:12px 18px; border-radius:8px;
+        font-weight:600; background:var(--accent); color:#fff; cursor:pointer;
+        margin: 0 8px;
+        }
+        .btn:hover{ background:#0a5642; }
+
+        .msg{ margin-top:14px; font-weight:700; }
+        .msg.error{ color:#b00020; }
+        .msg.success{ color:#0a6a0a; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header-bar">
+    <div class="header-content">
+        <img class="header-logo"
+             th:src="@{/images/abn-amro.png}" src="/images/abn-amro.png"
+             alt="ABN AMRO Logo">
+        <div class="welcome-text">Welcome Harish Kumar</div>
+    </div>
+</div>
+
+<!-- Main -->
+<main class="content">
+    <div class="card">
+        <h1>Upload Data File</h1>
+        <p class="help">
+            Choose your Intake. It must contain these sheets:
+            <b>Dataset</b>, <b>Attributes</b>, <b>Data Model</b>, <b>All Data</b>.
+        </p>
+
+        <input id="file" type="file" accept=".xlsx,.xls" />
+
+        <!-- Two separate buttons -->
+        <button id="uploadBtn" class="btn">Upload</button>
+        <button id="validateBtn" class="btn">Validate</button>
+
+        <div id="message" class="msg"></div>
+    </div>
+</main>
+
+<script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const validateBtn = document.getElementById('validateBtn');
+    const message = document.getElementById('message');
+
+    function getFile() {
+    const fileInput = document.getElementById('file');
+    if (!fileInput.files.length) {
+    message.textContent = 'Please choose a file first.';
+    message.className = 'msg error';
+    return null;
+    }
+    return fileInput.files[0];
+    }
+
+    // Upload button → Thank you page
+    uploadBtn.addEventListener('click', () => {
+    const file = getFile();
+    if (!file) return;
+
+    // For demo: directly go to thank-you page
+    window.location.href = '/thank-you';
+    });
+
+    // Validate button → calls backend validation
+    validateBtn.addEventListener('click', async () => {
+    const file = getFile();
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (data.valid) {
+    message.textContent = 'Validation successful. File is valid!';
+    message.className = 'msg success';
+    } else {
+    message.textContent = data.message || 'Validation failed.';
+    message.className = 'msg error';
+    }
+    } catch (e) {
+    message.textContent = 'Technical error while validating.';
+    message.className = 'msg error';
+    }
+    });
+</script>
+</body>
+</html>

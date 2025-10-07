@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Upload ANDES Intake Template</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" id="file" name="file" accept=".xlsx,.xls" required>
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    <div id="responseMessage" class="message" style="display:none;"></div>
+</div>
+
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let fileInput = document.getElementById("file");
+        let formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        fetch("/api/upload", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            let msgDiv = document.getElementById("responseMessage");
+            msgDiv.style.display = "block";
+
+            if (data.valid) {
+                msgDiv.className = "message success";
+                msgDiv.textContent = "✅ File is valid. Redirecting to download page...";
+                setTimeout(() => {
+                    window.location.href = "/download";
+                }, 1500);
+            } else {
+                msgDiv.className = "message error";
+                msgDiv.textContent = "❌ " + (data.message || "Invalid file.");
+            }
+        })
+        .catch(err => {
+            let msgDiv = document.getElementById("responseMessage");
+            msgDiv.style.display = "block";
+            msgDiv.className = "message error";
+            msgDiv.textContent = "❌ Upload failed: " + err;
+        });
+    });
+</script>
+</body>
+</html>
