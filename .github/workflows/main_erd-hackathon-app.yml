@@ -22,7 +22,7 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v2
       with:
-        registry: https://github.com/harishdavim/rfb-andes-intake-form-validation/
+        registry: https://github.com/harishdavim/rfb-andes-intake-form-validation.git/
         username: ${{ secrets.AzureAppService_ContainerUsername_c47151811ab6407c953c98e1fe658e75 }}
         password: ${{ secrets.AzureAppService_ContainerPassword_6aebf784f3a74ae59693d37bd2ea10a5 }}
 
@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: github.com/harishdavim/rfb-andes-intake-form-validation/${{ secrets.AzureAppService_ContainerUsername_c47151811ab6407c953c98e1fe658e75 }}/rfb-andes-intake-form-validation:${{ github.sha }}
+        tags: github.com/harishdavim/rfb-andes-intake-form-validation.git/${{ secrets.AzureAppService_ContainerUsername_c47151811ab6407c953c98e1fe658e75 }}/rfb-andes-intake-form-validation:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'erd-hackathon-app'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_22bad9dd5db84edd9e092356a9451251 }}
-        images: 'github.com/harishdavim/rfb-andes-intake-form-validation/${{ secrets.AzureAppService_ContainerUsername_c47151811ab6407c953c98e1fe658e75 }}/rfb-andes-intake-form-validation:${{ github.sha }}'
+        images: 'github.com/harishdavim/rfb-andes-intake-form-validation.git/${{ secrets.AzureAppService_ContainerUsername_c47151811ab6407c953c98e1fe658e75 }}/rfb-andes-intake-form-validation:${{ github.sha }}'
