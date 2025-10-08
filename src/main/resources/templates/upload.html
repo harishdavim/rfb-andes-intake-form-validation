@@ -120,6 +120,8 @@
         display: none;
         overflow: hidden;
         z-index: 40;
+        display: flex;
+        flex-direction: column;
         }
         .chat-panel__hdr {
         display: flex; align-items: center; justify-content: space-between;
@@ -130,7 +132,9 @@
         .chat-close {
         background: transparent; border: 0; color: #fff; font-size: 20px; cursor: pointer;
         }
-        .chat-panel__body { padding: 12px; font-size: 14px; color: #2c2c2c; }
+        .chat-panel__body {
+        flex: 1; overflow-y:auto; padding: 12px; font-size: 14px; color: #2c2c2c;
+        }
         .chat-input {
         display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e9e9e9;
         }
@@ -185,17 +189,17 @@
         <div id="chatTitle">Assistant</div>
         <button class="chat-close" type="button" onclick="toggleChat()" aria-label="Close">×</button>
     </div>
-    <div class="chat-panel__body">
-        👋 Hi Harish! This is a placeholder chat panel.
-        You can connect it to your chatbot backend later.
+    <div class="chat-panel__body" id="chatBody">
+        <div><em>👋 Hi Harish! Ask me about Intake uploads or validation.</em></div>
     </div>
     <div class="chat-input">
-        <input type="text" placeholder="Type a message…" />
-        <button type="button" onclick="alert('Hook this to your chat API')">Send</button>
+        <input id="chatInput" type="text" placeholder="Type a message…" />
+        <button type="button" id="chatSend">Send</button>
     </div>
 </div>
 
 <script>
+    // Excel check
     const fi = document.getElementById('fileInput');
     fi.addEventListener('change', () => {
     const f = fi.files[0];
@@ -206,11 +210,52 @@
     }
     });
 
+    // Chat
+    const chatBody = document.getElementById('chatBody');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    function addMsg(text, who) {
+    const row = document.createElement('div');
+    row.style.margin = '6px 0';
+    row.innerHTML = (who === 'you')
+    ? '<strong>You:</strong> ' + escapeHtml(text)
+    : '<strong>Bot:</strong> ' + escapeHtml(text);
+    chatBody.appendChild(row);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    async function sendChat() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    addMsg(text, 'you');
+    chatInput.value = '';
+
+    try {
+    const res = await fetch('https://your-backend.company.com/api/chat', { // <--- PUT YOUR BACKEND URL HERE
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: text })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    addMsg(data.reply || 'No reply', 'bot');
+    } catch (e) {
+    addMsg('⚠️ Could not reach the chat service.', 'bot');
+    console.error(e);
+    }
+    }
+
+    chatSend.addEventListener('click', sendChat);
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+
     function toggleChat(){
     const panel = document.getElementById('chatPanel');
     panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    if (panel.style.display === 'block') chatInput.focus();
     }
+    window.toggleChat = toggleChat;
 </script>
 </body>
 </html>
-
