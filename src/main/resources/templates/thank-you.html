@@ -5,30 +5,57 @@
     <title>Upload Complete</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        :root { --hdrH:64px; }
-        html,body{height:100%} body{margin:0;font-family:Segoe UI,Arial,sans-serif;position:relative;overflow:hidden}
-        body::before{content:"";position:fixed;inset:0;background:url("/images/background.png") center/cover no-repeat;filter:blur(7px);z-index:-2;transform:scale(1.03)}
+        :root { --card:#ffffff; --hdrH:64px; }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin:0; }
+        body {
+        font-family: "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
+        position:relative; overflow:hidden;
+        }
+
+        /* Background blur */
+        body::before{content:"";position:fixed;inset:0;
+        background:url("/images/background.png") center/cover no-repeat;
+        filter:blur(7px);z-index:-2;transform:scale(1.03)}
         body::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:-1}
-        .header-bar{position:fixed;inset:0 0 auto 0;height:var(--hdrH);padding:0 24px;background:linear-gradient(90deg,#004f43,#007367,#009877);box-shadow:0 2px 6px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:space-between}
+
+        /* Header */
+        .header-bar{position:fixed;inset:0 0 auto 0;height:var(--hdrH);padding:0 24px;
+        background:linear-gradient(90deg,#004f43,#007367,#009877);
+        box-shadow:0 2px 6px rgba(0,0,0,.2);
+        display:flex;align-items:center;justify-content:space-between;z-index:10}
         .header-logo{height:40px}
         .welcome-text{color:#fff;font-weight:700;font-size:18px;white-space:nowrap}
-        .content{height:calc(100vh - var(--hdrH));margin-top:var(--hdrH);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
-        .card{width:min(640px,92%);background:rgba(255,255,255,.95);border-radius:12px;padding:28px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-        h1{margin:0 0 12px;color:#004f43}
-        p{margin:0;color:#333}
+
+        /* Content */
+        .content{height:calc(100vh - var(--hdrH));margin-top:var(--hdrH);
+        display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;}
+
+        .card{width:min(640px,92%);background:rgba(255,255,255,.95);
+        border-radius:12px;padding:28px;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+        .card h1{margin:0 0 12px;color:#004f43;font-size:24px;}
+        .card p{margin:0 0 20px;color:#333;font-size:16px;}
+
+        .btn{background:#00796b;color:#fff;border:0;padding:10px 24px;border-radius:6px;font-size:15px;cursor:pointer;}
+        .btn:hover{background:#004d40;}
     </style>
 </head>
 <body>
+<!-- Header -->
 <div class="header-bar">
     <img class="header-logo" th:src="@{/images/abn-amro.png}" src="/images/abn-amro.png" alt="ABN AMRO">
     <div class="welcome-text">Welcome Harish Kumar</div>
 </div>
 
+<!-- Content -->
 <main class="content">
     <div class="card">
         <h1>Thank you for uploading</h1>
         <p>Intake Document will be sent to your mail id once it is ready.</p>
+        <!-- Home button -->
+        <a href="/upload"><button class="btn">Home</button></a>
     </div>
 </main>
 </body>
 </html>
+
