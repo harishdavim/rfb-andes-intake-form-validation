@@ -13,138 +13,45 @@
         position:relative; overflow:hidden;
         }
 
-        /* Blurred background + overlay */
-        body::before{
-        content:"";position:fixed;inset:0;
+        body::before{content:"";position:fixed;inset:0;
         background:url("/images/background.png") center/cover no-repeat;
-        filter:blur(7px);z-index:-2;transform:scale(1.03)
-        }
-        body::after{
-        content:"";position:fixed;inset:0;
-        background:rgba(0,0,0,.35);z-index:-1
-        }
+        filter:blur(7px);z-index:-2;transform:scale(1.03)}
+        body::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:-1}
 
-        /* Header */
-        .header-bar{
-        position:fixed;inset:0 0 auto 0;height:var(--hdrH);padding:0 24px;
-        background:linear-gradient(90deg,#004f43,#007367,#009877);
-        box-shadow:0 2px 6px rgba(0,0,0,.2);
-        display:flex;align-items:center;justify-content:space-between;z-index:10
-        }
-        .header-logo{height:40px;display:block}
+        .header-bar{position:fixed;inset:0 0 auto 0;height:var(--hdrH);padding:0 24px;
+        background:linear-gradient(90deg,#004f43,#007367,#009877);box-shadow:0 2px 6px rgba(0,0,0,.2);
+        display:flex;align-items:center;justify-content:space-between;z-index:10}
+        .header-logo{height:40px}
         .welcome-text{color:#fff;font-weight:700;font-size:18px;white-space:nowrap}
 
-        /* Content */
-        .content{
-        height:calc(100vh - var(--hdrH));
-        margin-top:var(--hdrH);
-        display:flex;align-items:center;justify-content:center;
-        padding:24px;text-align:center;
-        }
+        .content{height:calc(100vh - var(--hdrH));margin-top:var(--hdrH);
+        display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;}
 
-        /* Card */
-        .card{
-        width:min(640px,92%);
-        background:rgba(255,255,255,.95);
-        border-radius:12px;
-        padding:28px 28px 24px;
-        box-shadow:0 8px 24px rgba(0,0,0,.25);
-        }
-        .card-title{
-        margin:0 0 18px;
-        font-size:24px;
-        color:#004f43;
-        font-weight:700;
-        }
-        .card input[type="file"]{ margin:10px 0 20px; }
+        .card{width:min(640px,92%);background:rgba(255,255,255,.95);border-radius:12px;
+        padding:28px;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+        .card-title{margin:0 0 18px;font-size:24px;color:#004f43;font-weight:700;}
+        .card input[type="file"]{margin:10px 0 20px;}
+        .btn{background:#00796b;color:#fff;border:0;padding:10px 24px;border-radius:6px;font-size:15px;cursor:pointer;}
+        .btn:hover{background:#004d40;}
 
-        .btn{
-        background:#00796b;color:#fff;border:0;
-        padding:10px 24px;border-radius:6px;font-size:15px;
-        cursor:pointer;transition:background .2s;
-        }
-        .btn:hover{ background:#004d40; }
-
-        /* Messages */
-        .msg{margin-top:12px;font-weight:600}
-        .msg.error{color:#b00020}
-        .msg.info{color:#0f6b57}
-
-        /* === Floating Chat FAB === */
-        .chat-fab {
-        position: fixed;
-        right: 22px;
-        bottom: 22px;
-        width: 56px;
-        height: 56px;
-        border: 0;
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #2dd6c5, #00796b 70%);
-        box-shadow: 0 8px 24px rgba(0,0,0,.35);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-        z-index: 30;
-        }
-        .chat-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,.42); }
-        .chat-fab:active { transform: translateY(0); filter: brightness(.95); }
-        .chat-fab svg { width: 28px; height: 28px; fill: #fff; }
-
-        /* Optional label */
-        .chat-label {
-        position: fixed;
-        right: 86px;
-        bottom: 32px;
-        padding: 6px 10px;
-        background: rgba(0,0,0,.65);
-        color: #fff;
-        font-size: 13px;
-        border-radius: 6px;
-        backdrop-filter: blur(2px);
-        z-index: 29;
-        }
-        @media (max-width: 520px) { .chat-label { display: none; } }
-
-        /* Popup panel */
-        .chat-panel {
-        position: fixed;
-        right: 22px;
-        bottom: 86px;
-        width: min(360px, 92vw);
-        max-height: 60vh;
-        background: rgba(255,255,255,.98);
-        border-radius: 12px;
-        box-shadow: 0 16px 40px rgba(0,0,0,.35);
-        display: none;
-        overflow: hidden;
-        z-index: 40;
-        display: flex;
-        flex-direction: column;
-        }
-        .chat-panel__hdr {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 12px;
-        background: linear-gradient(90deg, #004f43, #009877);
-        color: #fff; font-weight: 600;
-        }
-        .chat-close {
-        background: transparent; border: 0; color: #fff; font-size: 20px; cursor: pointer;
-        }
-        .chat-panel__body {
-        flex: 1; overflow-y:auto; padding: 12px; font-size: 14px; color: #2c2c2c;
-        }
-        .chat-input {
-        display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e9e9e9;
-        }
-        .chat-input input {
-        flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #d7d7d7;
-        }
-        .chat-input button {
-        padding: 10px 14px; border: 0; border-radius: 8px; background: #00796b; color: #fff; cursor: pointer;
-        }
-        .chat-input button:hover { background: #045e54; }
+        /* Chat */
+        .chat-fab{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border:0;border-radius:50%;
+        background:radial-gradient(circle at 30% 30%,#2dd6c5,#00796b 70%);box-shadow:0 8px 24px rgba(0,0,0,.35);
+        display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:30;}
+        .chat-fab svg{width:28px;height:28px;fill:#fff;}
+        .chat-panel{position:fixed;right:22px;bottom:86px;width:min(360px,92vw);max-height:65vh;
+        background:#fff;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.35);
+        display:none;flex-direction:column;overflow:hidden;z-index:40;}
+        .chat-panel__hdr{display:flex;align-items:center;justify-content:space-between;
+        padding:10px 12px;background:linear-gradient(90deg,#004f43,#009877);color:#fff;font-weight:600;}
+        .chat-close{background:transparent;border:0;color:#fff;font-size:20px;cursor:pointer;}
+        .chat-panel__body{flex:1;overflow-y:auto;padding:12px;font-size:14px;color:#2c2c2c;}
+        .chat-input{display:flex;flex-direction:column;gap:8px;padding:12px;border-top:1px solid #e9e9e9;}
+        .chat-input-row{display:flex;gap:8px;}
+        .chat-input input[type="text"]{flex:1;padding:10px 12px;border-radius:8px;border:1px solid #d7d7d7;}
+        .chat-input button{padding:10px 14px;border:0;border-radius:8px;background:#00796b;color:#fff;cursor:pointer;}
+        .chat-input button:hover{background:#045e54;}
+        .chat-input input[type="file"]{font-size:13px;}
     </style>
 </head>
 <body>
@@ -158,105 +65,88 @@
 <main class="content">
     <form method="post" enctype="multipart/form-data" class="card">
         <div class="card-title">Upload Data File</div>
-
-        <input id="fileInput" type="file" name="file" required
-               accept=".xlsx,.xls,.xlsm,.xltx,.xlt">
-
+        <input id="fileInput" type="file" name="file" required accept=".xlsx,.xls,.xlsm,.xltx,.xlt">
         <div>
             <button type="submit" class="btn" th:formaction="@{/upload}">Generate Intake</button>
         </div>
-
-        <!-- backend messages -->
-        <div th:if="${error}" class="msg error">[[${error}]]</div>
-        <div th:if="${info}" class="msg info">[[${info}]]</div>
     </form>
 </main>
 
-<!-- Floating Chat -->
-<button class="chat-fab" type="button" aria-label="Open chat" onclick="toggleChat()">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 2a1 1 0 0 1 1 1v1.05A8 8 0 0 1 20 12v2.5a3.5 3.5 0 0 1-3.5 3.5H14l-2 3-2-3H7.5A3.5 3.5 0 0 1 4 14.5V12a8 8 0 0 1 7-7.95V3a1 1 0 0 1 1-1Z"/>
-        <circle cx="9" cy="11" r="1.6"/>
-        <circle cx="15" cy="11" r="1.6"/>
-        <rect x="8.25" y="13.5" width="7.5" height="1.6" rx=".8"/>
-    </svg>
+<!-- Chat Button -->
+<button class="chat-fab" type="button" onclick="toggleChat()">
+    <svg viewBox="0 0 24 24"><path d="M12 2a1 1 0 0 1 1 1v1.05A8 8 0 0 1 20 12v2.5a3.5 3.5 0 0 1-3.5 3.5H14l-2 3-2-3H7.5A3.5 3.5 0 0 1 4 14.5V12a8 8 0 0 1 7-7.95V3a1 1 0 0 1 1-1Z"/><circle cx="9" cy="11" r="1.6"/><circle cx="15" cy="11" r="1.6"/><rect x="8.25" y="13.5" width="7.5" height="1.6" rx=".8"/></svg>
 </button>
-<div class="chat-label">Chat</div>
 
-<!-- Popup Panel -->
-<div id="chatPanel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+<!-- Chat Panel -->
+<div id="chatPanel" class="chat-panel">
     <div class="chat-panel__hdr">
-        <div id="chatTitle">Chat with your Data</div>
-        <button class="chat-close" type="button" onclick="toggleChat()" aria-label="Close">×</button>
+        <div>Chat with your Data</div>
+        <button class="chat-close" type="button" onclick="toggleChat()">×</button>
     </div>
     <div class="chat-panel__body" id="chatBody">
-        <div><em>👋 Hi Harish! Ask me about Intake uploads or validation.</em></div>
+        <div><em>👋 "Hi Harish! Got data? I've got answers ..."</em></div>
     </div>
     <div class="chat-input">
-        <input id="chatInput" type="text" placeholder="Type a message…" />
-        <button type="button" id="chatSend">Send</button>
+        <div class="chat-input-row">
+            <input id="chatInput" type="text" placeholder="Type a message…"/>
+            <button type="button" id="chatSend">Send</button>
+        </div>
+        <div class="chat-input-row">
+            <input id="chatFile" type="file"/>
+            <button type="button" id="chatUpload">Upload File</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Excel check
-    const fi = document.getElementById('fileInput');
-    fi.addEventListener('change', () => {
-    const f = fi.files[0];
-    if (!f) return;
-    if (!/\.(xlsx|xls|xlsm|xltx|xlt)$/i.test(f.name)) {
-    alert('Only Excel files are allowed (.xlsx, .xls, .xlsm, .xltx, .xlt).');
-    fi.value = '';
+    const chatBody=document.getElementById('chatBody');
+    const chatInput=document.getElementById('chatInput');
+    const chatSend=document.getElementById('chatSend');
+    const chatFile=document.getElementById('chatFile');
+    const chatUpload=document.getElementById('chatUpload');
+
+    function addMsg(text,who){
+    const row=document.createElement('div');
+    row.style.margin='6px 0';
+    row.innerHTML=(who==='you')?'<strong>You:</strong> '+text:'<strong>Bot:</strong> '+text;
+    chatBody.appendChild(row);chatBody.scrollTop=chatBody.scrollHeight;
     }
+
+    async function sendChat(){
+    const text=chatInput.value.trim(); if(!text) return;
+    addMsg(text,'you'); chatInput.value='';
+    try{
+    const res=await fetch('https://your-backend.company.com/api/chat',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:text})
     });
-
-    // Chat
-    const chatBody = document.getElementById('chatBody');
-    const chatInput = document.getElementById('chatInput');
-    const chatSend = document.getElementById('chatSend');
-
-    function addMsg(text, who) {
-    const row = document.createElement('div');
-    row.style.margin = '6px 0';
-    row.innerHTML = (who === 'you')
-    ? '<strong>You:</strong> ' + escapeHtml(text)
-    : '<strong>Bot:</strong> ' + escapeHtml(text);
-    chatBody.appendChild(row);
-    chatBody.scrollTop = chatBody.scrollHeight;
+    const data=await res.json(); addMsg(data.reply||'No reply','bot');
+    }catch(e){addMsg('⚠️ Chat service error','bot');}
     }
-    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-    async function sendChat() {
-    const text = chatInput.value.trim();
-    if (!text) return;
-    addMsg(text, 'you');
-    chatInput.value = '';
-
-    try {
-    const res = await fetch('https://your-backend.company.com/api/chat', { // <--- PUT YOUR BACKEND URL HERE
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: text })
+    async function uploadFile(){
+    const file=chatFile.files[0]; if(!file){alert("Choose a file first");return;}
+    addMsg("Uploaded file: "+file.name,'you');
+    const formData=new FormData(); formData.append("file",file);
+    try{
+    const res=await fetch('https://your-backend.company.com/api/chat/upload',{
+    method:'POST',body:formData
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    addMsg(data.reply || 'No reply', 'bot');
-    } catch (e) {
-    addMsg('⚠️ Could not reach the chat service.', 'bot');
-    console.error(e);
-    }
+    const data=await res.json(); addMsg(data.reply||'File received','bot');
+    }catch(e){addMsg('⚠️ File upload failed','bot');}
     }
 
-    chatSend.addEventListener('click', sendChat);
-    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+    chatSend.onclick=sendChat;
+    chatUpload.onclick=uploadFile;
+    chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
 
     function toggleChat(){
-    const panel = document.getElementById('chatPanel');
-    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-    if (panel.style.display === 'block') chatInput.focus();
+    const p=document.getElementById('chatPanel');
+    p.style.display=(p.style.display==='block')?'none':'block';
+    if(p.style.display==='block') chatInput.focus();
     }
-    window.toggleChat = toggleChat;
 </script>
 </body>
 </html>
+
 
